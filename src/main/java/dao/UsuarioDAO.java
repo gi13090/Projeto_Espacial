@@ -1,0 +1,124 @@
+package dao;
+
+import entities.Usuario;
+import infra.DataBaseConfigs;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UsuarioDAO {
+    public void inserir(Usuario u) {
+
+        String sql = "INSERT INTO USUARIOS (ID, NOME, EMAIL, SENHA) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, u.getId());
+            stmt.setString(2, u.getNome());
+            stmt.setString(3, u.getEmail());
+            stmt.setString(4, u.getSenha());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir usuário", e);
+        }
+    }
+
+    public List<Usuario> listar() {
+
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM USUARIOS";
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Usuario u = new Usuario();
+                u.setId(rs.getLong("ID"));
+                u.setNome(rs.getString("NOME"));
+                u.setEmail(rs.getString("EMAIL"));
+                u.setSenha(rs.getString("SENHA"));
+
+                lista.add(u);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar usuários", e);
+        }
+        return lista;
+    }
+    public Usuario buscarPorId(Long id) {
+        String sql = "SELECT * FROM USUARIOS WHERE ID = ?";
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                Usuario u = new Usuario();
+                u.setId(rs.getLong("ID"));
+                u.setNome(rs.getString("NOME"));
+                u.setEmail(rs.getString("EMAIL"));
+                u.setSenha(rs.getString("SENHA"));
+
+                return u;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuário", e);
+        }
+        return null;
+    }
+    public void atualizar(Usuario u) {
+
+        String sql = """
+                UPDATE USUARIOS
+                SET NOME=?, EMAIL=?, SENHA=?
+                WHERE ID=?
+                """;
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, u.getNome());
+            stmt.setString(2, u.getEmail());
+            stmt.setString(3, u.getSenha());
+            stmt.setLong(4, u.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar usuário", e);
+        }
+    }
+    public void deletar(Long id) {
+
+        String sql = "DELETE FROM USUARIOS WHERE ID=?";
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao deletar usuário", e);
+        }
+    }
+    public boolean emailExiste(String email) {
+
+        String sql = "SELECT COUNT(*) FROM USUARIOS WHERE EMAIL = ?";
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar email", e);
+        }
+
+        return false;
+    }
+}
