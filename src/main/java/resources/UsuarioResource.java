@@ -31,7 +31,9 @@ public class UsuarioResource {
         }
         return Response.ok(usuario).build();
     }
+    teste{
 
+    }
     @POST
     public Response inserir(Usuario usuario) {
         if (usuario.getNome() == null ||
