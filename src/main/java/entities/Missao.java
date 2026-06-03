@@ -10,11 +10,9 @@ public class Missao {
     private Integer duracaoDias;
     private String descricao;
     private Long agenciaId;
-    private Long statusId;
-    private Long categoriaId;
+    private String status;
+    private String destino;
 
-    public Missao(){
-    }
     public Long getId() {
         return id;
     }
@@ -23,45 +21,12 @@ public class Missao {
         this.id = id;
     }
 
-    public Long getCategoriaId() {
-        return categoriaId;
+    public String getNome() {
+        return nome;
     }
 
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
-
-    public Long getAgenciaId() {
-        return agenciaId;
-    }
-
-
-    public void setAgenciaId(Long agenciaId) {
-        this.agenciaId = agenciaId;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Integer getDuracaoDias() {
-        return duracaoDias;
-    }
-
-    public void setDuracaoDias(Integer duracaoDias) {
-        this.duracaoDias = duracaoDias;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public LocalDate getDataLancamento() {
@@ -72,11 +37,43 @@ public class Missao {
         this.dataLancamento = dataLancamento;
     }
 
-    public String getNome() {
-        return nome;
+    public Integer getDuracaoDias() {
+        return duracaoDias;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDuracaoDias(Integer duracaoDias) {
+        this.duracaoDias = duracaoDias;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Long getAgenciaId() {
+        return agenciaId;
+    }
+
+    public void setAgenciaId(Long agenciaId) {
+        this.agenciaId = agenciaId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 }

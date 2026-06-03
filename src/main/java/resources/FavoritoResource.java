@@ -1,5 +1,7 @@
 package resources;
 import dao.FavoritoDAO;
+import dao.MissaoDAO;
+import dao.UsuarioDAO;
 import entities.Favorito;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -29,7 +31,33 @@ public class FavoritoResource {
     }
     @POST
     public Response inserir(Favorito favorito) {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+        if (usuarioDAO.buscarPorId(
+                favorito.getUsuarioId()) == null) {
+
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Usuário não encontrado")
+                    .build();
+        }
+        MissaoDAO missaoDAO = new MissaoDAO();
+
+        if (missaoDAO.buscarPorId(
+                favorito.getMissaoId()) == null) {
+
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Missão não encontrada")
+                    .build();
+        }
+
+        if (dao.favoritoExiste(
+                favorito.getUsuarioId(),
+                favorito.getMissaoId())) {
+
+            return Response.status(Response.Status.CONFLICT)
+                    .entity("Missão já favoritada")
+                    .build();
+        }
         try {
             dao.inserir(favorito);
             return Response.status(Response.Status.CREATED)

@@ -12,6 +12,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
 
+
     private final UsuarioDAO dao = new UsuarioDAO();
     @GET
     public Response listar() {
@@ -46,6 +47,12 @@ public class UsuarioResource {
                     .entity("Email é obrigatório")
                     .build();
         }
+        if (dao.emailExiste(usuario.getEmail())) {
+
+            return Response.status(Response.Status.CONFLICT)
+                    .entity("Email já cadastrado")
+                    .build();
+        }
         if (!usuario.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 
             return Response.status(Response.Status.BAD_REQUEST)
@@ -77,7 +84,11 @@ public class UsuarioResource {
         try {
 
             usuario.setId(id);
-            dao.atualizar(usuario);
+            if (dao.buscarPorId(id) == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Usuário não encontrado")
+                        .build();
+            }
 
             return Response.ok(usuario).build();
 

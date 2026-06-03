@@ -32,6 +32,34 @@ public class AgenciaResource {
     @POST
     public Response inserir(Agencia agencia) {
         try {
+            if (agencia.getNome() == null ||
+                    agencia.getNome().isBlank()) {
+
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Nome da agência é obrigatório")
+                        .build();
+            }
+            if (agencia.getPais() == null ||
+                    agencia.getPais().isBlank()) {
+
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("País é obrigatório")
+                        .build();
+            }
+            if (agencia.getAnoFundacao() == null ||
+                    agencia.getAnoFundacao() < 1900) {
+
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Ano de fundação inválido")
+                        .build();
+            }
+            if (agencia.getSite() == null ||
+                    agencia.getSite().isBlank()) {
+
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Site é obrigatório")
+                        .build();
+            }
             dao.inserir(agencia);
             return Response.status(Response.Status.CREATED)
                     .entity(agencia)
@@ -46,9 +74,12 @@ public class AgenciaResource {
     @Path("/{id}")
     public Response atualizar(@PathParam("id") Long id, Agencia agencia) {
         try {
+            if (dao.buscarPorId(id) == null) {
 
-            agencia.setId(id);
-            dao.atualizar(agencia);
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Agência não encontrada")
+                        .build();
+            }            dao.atualizar(agencia);
             return Response.ok(agencia).build();
 
         } catch (Exception e) {

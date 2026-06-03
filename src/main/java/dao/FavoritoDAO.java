@@ -87,4 +87,29 @@ public class FavoritoDAO {
             throw new RuntimeException("Erro ao deletar favorito", e);
         }
     }
+    public boolean favoritoExiste(Long usuarioId,
+                                  Long missaoId) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM FAVORITOS
+            WHERE ID_USUARIO = ?
+            AND ID_MISSAO = ?
+            """;
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, usuarioId);
+            stmt.setLong(2, missaoId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar favorito", e);
+        }
+        return false;
+    }
 }

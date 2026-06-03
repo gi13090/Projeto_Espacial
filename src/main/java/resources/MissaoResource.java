@@ -40,6 +40,31 @@ public class MissaoResource {
     @POST
     public Response inserir(Missao missao) {
 
+        if (missao.getNome() == null ||
+                missao.getNome().isBlank()) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Nome da missão obrigatório")
+                    .build();
+        }
+        if (missao.getDataLancamento() == null) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Data de lançamento obrigatória")
+                    .build();
+        }
+        if (missao.getDuracaoDias() == null ||
+                missao.getDuracaoDias() < 0){
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Duração inválida")
+                    .build();
+        }
+        if (dao.missaoExiste(missao.getId())) {
+
+            return Response.status(Response.Status.CONFLICT)
+                    .entity("Missão já cadastrada")
+                    .build();
+        }
         try {
             dao.inserir(missao);
             return Response.status(Response.Status.CREATED)

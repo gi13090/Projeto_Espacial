@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDAO {
+
     public void inserir(Usuario u) {
 
-        String sql = "INSERT INTO USUARIOS (ID, NOME, EMAIL, SENHA) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO T_USUARIO (ID, NOME, EMAIL, SENHA) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -28,7 +29,7 @@ public class UsuarioDAO {
     public List<Usuario> listar() {
 
         List<Usuario> lista = new ArrayList<>();
-        String sql = "SELECT * FROM USUARIOS";
+        String sql = "SELECT * FROM T_USUARIO";
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -49,7 +50,7 @@ public class UsuarioDAO {
         return lista;
     }
     public Usuario buscarPorId(Long id) {
-        String sql = "SELECT * FROM USUARIOS WHERE ID = ?";
+        String sql = "SELECT * FROM T_USUARIOS WHERE ID = ?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -74,7 +75,7 @@ public class UsuarioDAO {
     public void atualizar(Usuario u) {
 
         String sql = """
-                UPDATE USUARIOS
+                UPDATE T_USUARIOS
                 SET NOME=?, EMAIL=?, SENHA=?
                 WHERE ID=?
                 """;
@@ -93,7 +94,7 @@ public class UsuarioDAO {
     }
     public void deletar(Long id) {
 
-        String sql = "DELETE FROM USUARIOS WHERE ID=?";
+        String sql = "DELETE FROM T_USUARIOS WHERE ID=?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -106,7 +107,7 @@ public class UsuarioDAO {
     }
     public boolean emailExiste(String email) {
 
-        String sql = "SELECT COUNT(*) FROM USUARIOS WHERE EMAIL = ?";
+        String sql = "SELECT COUNT(*) FROM T_USUARIOS WHERE EMAIL = ?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -119,6 +120,26 @@ public class UsuarioDAO {
             throw new RuntimeException("Erro ao verificar email", e);
         }
 
+        return false;
+    }
+    public boolean usuarioExiste(Long id) {
+
+        String sql = "SELECT COUNT(*) FROM T_USUARIOS WHERE ID = ?";
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar usuário", e);
+        }
         return false;
     }
 }
