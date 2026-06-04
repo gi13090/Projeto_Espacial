@@ -11,8 +11,8 @@ public class FavoritoDAO {
     public void inserir(Favorito f) {
 
         String sql = """
-                INSERT INTO FAVORITOS
-                (ID, ID_USUARIO, ID_MISSAO)
+                INSERT INTO T_FAVORITO
+                (ID_FAVORITO, ID_USUARIO, ID_MISSAO)
                 VALUES (?, ?, ?)
                 """;
 
@@ -31,7 +31,7 @@ public class FavoritoDAO {
 
         List<Favorito> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM FAVORITOS";
+        String sql = "SELECT * FROM T_FAVORITO";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -41,7 +41,7 @@ public class FavoritoDAO {
 
                 Favorito f = new Favorito();
 
-                f.setId(rs.getLong("ID"));
+                f.setId(rs.getLong("ID_FAVORITO"));
                 f.setUsuarioId(rs.getLong("ID_USUARIO"));
                 f.setMissaoId(rs.getLong("ID_MISSAO"));
 
@@ -54,7 +54,7 @@ public class FavoritoDAO {
     }
     public Favorito buscarPorId(Long id) {
 
-        String sql = "SELECT * FROM FAVORITOS WHERE ID=?";
+        String sql = "SELECT * FROM T_FAVORITO WHERE ID_FAVORITO=?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -64,7 +64,7 @@ public class FavoritoDAO {
             if (rs.next()) {
 
                 Favorito f = new Favorito();
-                f.setId(rs.getLong("ID"));
+                f.setId(rs.getLong("ID_FAVORITO"));
                 f.setUsuarioId(rs.getLong("ID_USUARIO"));
                 f.setMissaoId(rs.getLong("ID_MISSAO"));
 
@@ -77,7 +77,7 @@ public class FavoritoDAO {
     }
     public void deletar(Long id) {
 
-        String sql = "DELETE FROM FAVORITOS WHERE ID=?";
+        String sql = "DELETE FROM T_FAVORITO WHERE ID_FAVORITO=?";
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -92,7 +92,7 @@ public class FavoritoDAO {
 
         String sql = """
             SELECT COUNT(*)
-            FROM FAVORITOS
+            FROM T_FAVORITO
             WHERE ID_USUARIO = ?
             AND ID_MISSAO = ?
             """;

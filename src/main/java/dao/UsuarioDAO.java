@@ -11,7 +11,7 @@ public class UsuarioDAO {
 
     public void inserir(Usuario u) {
 
-        String sql = "INSERT INTO T_USUARIO (ID, NOME, EMAIL, SENHA) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO T_USUARIO (ID_USUARIO, NM_USUARIO, DS_EMAIL, DS_SENHA) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -38,9 +38,9 @@ public class UsuarioDAO {
 
                 Usuario u = new Usuario();
                 u.setId(rs.getLong("ID"));
-                u.setNome(rs.getString("NOME"));
-                u.setEmail(rs.getString("EMAIL"));
-                u.setSenha(rs.getString("SENHA"));
+                u.setNome(rs.getString("NM_USUARIO"));
+                u.setEmail(rs.getString("DS_EMAIL"));
+                u.setSenha(rs.getString("DS_SENHA"));
 
                 lista.add(u);
             }
@@ -50,7 +50,7 @@ public class UsuarioDAO {
         return lista;
     }
     public Usuario buscarPorId(Long id) {
-        String sql = "SELECT * FROM T_USUARIOS WHERE ID = ?";
+        String sql = "SELECT * FROM T_USUARIO WHERE ID_USUARIO = ?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -60,10 +60,10 @@ public class UsuarioDAO {
             if (rs.next()) {
 
                 Usuario u = new Usuario();
-                u.setId(rs.getLong("ID"));
-                u.setNome(rs.getString("NOME"));
-                u.setEmail(rs.getString("EMAIL"));
-                u.setSenha(rs.getString("SENHA"));
+                u.setId(rs.getLong("ID_USUARIO"));
+                u.setNome(rs.getString("NM_USUARIO"));
+                u.setEmail(rs.getString("DS_EMAIL"));
+                u.setSenha(rs.getString("DS_SENHA"));
 
                 return u;
             }
@@ -75,9 +75,9 @@ public class UsuarioDAO {
     public void atualizar(Usuario u) {
 
         String sql = """
-                UPDATE T_USUARIOS
-                SET NOME=?, EMAIL=?, SENHA=?
-                WHERE ID=?
+                UPDATE T_USUARIO
+                SET NM_USUARIO=?, DS_EMAIL=?, DS_SENHA=?
+                WHERE ID_USUARIO=?
                 """;
 
         try (Connection conn = DataBaseConfigs.getConnection();
@@ -94,7 +94,7 @@ public class UsuarioDAO {
     }
     public void deletar(Long id) {
 
-        String sql = "DELETE FROM T_USUARIOS WHERE ID=?";
+        String sql = "DELETE FROM T_USUARIO WHERE ID_USUARIO=?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,7 +107,7 @@ public class UsuarioDAO {
     }
     public boolean emailExiste(String email) {
 
-        String sql = "SELECT COUNT(*) FROM T_USUARIOS WHERE EMAIL = ?";
+        String sql = "SELECT COUNT(*) FROM T_USUARIO WHERE DS_EMAIL = ?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -124,7 +124,7 @@ public class UsuarioDAO {
     }
     public boolean usuarioExiste(Long id) {
 
-        String sql = "SELECT COUNT(*) FROM T_USUARIOS WHERE ID = ?";
+        String sql = "SELECT COUNT(*) FROM T_USUARIO WHERE ID_USUARIO = ?";
 
         try (Connection conn = DataBaseConfigs.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

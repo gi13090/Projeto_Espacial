@@ -1,67 +1,94 @@
-# javaespacial
+# JavaEspacial
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Descrição
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+API REST desenvolvida em Java utilizando Quarkus e Oracle Database para gerenciamento de usuários, agências espaciais, missões e favoritos.
 
-## Running the application in dev mode
+## Tecnologias Utilizadas
 
-You can run your application in dev mode that enables live coding using:
+* Java
+* Quarkus
+* Oracle Database
+* Maven
+* Swagger/OpenAPI
 
-```shell script
-./mvnw quarkus:dev
+## Configuração do Banco de Dados
+
+O acesso ao banco é realizado através do arquivo:
+
+`src/main/resources/application.properties`
+
+Configurações utilizadas:
+
+```properties
+quarkus.datasource.username=567548
+quarkus.datasource.password=130905
+quarkus.datasource.jdbc.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Para executar o projeto, substitua `SEU_USUARIO` e `SUA_SENHA` pelas credenciais do banco Oracle.
 
-## Packaging and running the application
+## Executando o Projeto
 
-The application can be packaged using:
+1. Clonar o repositório.
+2. Abrir o projeto na IDE.
+3. Configurar as credenciais do banco em `application.properties`.
+4. Executar:
 
-```shell script
-./mvnw package
+```bash
+mvn quarkus:dev
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+A aplicação ficará disponível em:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```text
+http://localhost:8080
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Documentação da API
 
-## Creating a native executable
+Swagger:
 
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+```text
+http://localhost:8080/q/swagger-ui
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## Entidades
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+* Usuário
+* Agência
+* Missão
+* Favorito
 
-You can then execute your native executable with: `./target/javaespacial-1.0-SNAPSHOT-runner`
+## Endpoints Principais
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+### Usuários
 
-## Related Guides
+* GET /usuarios
+* GET /usuarios/{id}
+* POST /usuarios
+* PUT /usuarios/{id}
+* DELETE /usuarios/{id}
 
-- REST ([guide](https://quarkus.io/guides/rest)): Build RESTful web services and APIs using Jakarta REST (formerly
-  JAX-RS)
+### Agências
 
-## Provided Code
+* GET /agencias
+* GET /agencias/{id}
+* POST /agencias
+* PUT /agencias/{id}
+* DELETE /agencias/{id}
 
-### REST
+### Missões
 
-Easily start your REST Web Services
+* GET /missoes
+* GET /missoes/{id}
+* POST /missoes
+* PUT /missoes/{id}
+* DELETE /missoes/{id}
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+### Favoritos
+
+* GET /favoritos
+* GET /favoritos/{id}
+* POST /favoritos
+* DELETE /favoritos/{id}

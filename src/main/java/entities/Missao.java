@@ -7,11 +7,15 @@ public class Missao {
     private Long id;
     private String nome;
     private LocalDate dataLancamento;
+    private LocalDate dataTermino;
     private Integer duracaoDias;
     private String descricao;
     private Long agenciaId;
     private String status;
     private String destino;
+
+    public Missao() {
+    }
 
     public Long getId() {
         return id;
@@ -35,6 +39,14 @@ public class Missao {
 
     public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
+    }
+
+    public LocalDate getDataTermino() {
+        return dataTermino;
+    }
+
+    public void setDataTermino(LocalDate dataTermino) {
+        this.dataTermino = dataTermino;
     }
 
     public Integer getDuracaoDias() {
