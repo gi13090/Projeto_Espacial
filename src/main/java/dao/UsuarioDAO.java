@@ -37,7 +37,7 @@ public class UsuarioDAO {
             while (rs.next()) {
 
                 Usuario u = new Usuario();
-                u.setId(rs.getLong("ID"));
+                u.setId(rs.getLong("ID_USUARIO"));
                 u.setNome(rs.getString("NM_USUARIO"));
                 u.setEmail(rs.getString("DS_EMAIL"));
                 u.setSenha(rs.getString("DS_SENHA"));
