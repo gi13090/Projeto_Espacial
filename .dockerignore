@@ -1,5 +1,4 @@
-*
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
-!target/quarkus-app/*
+# Ignora apenas o que não precisa ir pro builder
+.git
+.gitignore
+README.md
