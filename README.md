@@ -21,8 +21,8 @@ O acesso ao banco é realizado através do arquivo:
 Configurações utilizadas:
 
 ```properties
-quarkus.datasource.username=567548
-quarkus.datasource.password=130905
+quarkus.datasource.username=
+quarkus.datasource.password=
 quarkus.datasource.jdbc.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
 ```
 
