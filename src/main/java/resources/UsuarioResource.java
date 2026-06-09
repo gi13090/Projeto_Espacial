@@ -66,6 +66,7 @@ public class UsuarioResource {
                     .build();
         }
         try {
+            usuario.setId(dao.proximoId());
             dao.inserir(usuario);
             return Response.status(Response.Status.CREATED)
                     .entity(usuario)

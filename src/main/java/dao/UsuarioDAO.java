@@ -8,7 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDAO {
+    public Long proximoId() {
+        String sql = "SELECT NVL(MAX(ID_USUARIO),0)+1 FROM T_USUARIO";
 
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return 1L;
+    }
     public void inserir(Usuario u) {
 
         String sql = "INSERT INTO T_USUARIO (ID_USUARIO, NM_USUARIO, DS_EMAIL, DS_SENHA) VALUES (?, ?, ?, ?)";
