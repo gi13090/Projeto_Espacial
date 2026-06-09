@@ -142,4 +142,31 @@ public class UsuarioDAO {
         }
         return false;
     }
+    public boolean login(String email, String senha) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM T_USUARIO
+            WHERE DS_EMAIL = ?
+            AND DS_SENHA = ?
+            """;
+
+        try (Connection conn = DataBaseConfigs.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao realizar login", e);
+        }
+
+        return false;
+    }
 }

@@ -77,6 +77,25 @@ public class UsuarioResource {
                     .entity("Erro ao cadastrar usuário")
                     .build();
         }
+
+    }
+    @POST
+    @Path("/login")
+    public Response login(Usuario usuario) {
+
+        if (usuario.getEmail() == null || usuario.getSenha() == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Email e senha são obrigatórios")
+                    .build();
+        }
+
+        if (dao.login(usuario.getEmail(), usuario.getSenha())) {
+            return Response.ok("Login realizado com sucesso").build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED)
+                .entity("Email ou senha inválidos")
+                .build();
     }
     @PUT
     @Path("/{id}")
