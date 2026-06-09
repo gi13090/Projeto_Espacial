@@ -133,4 +133,9 @@ public class UsuarioResource {
                     .build();
         }
     }
+    @OPTIONS
+    @Path("/{path: .*}")
+    public Response options() {
+        return Response.ok().build();
+    }
 }
